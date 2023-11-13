@@ -1,0 +1,45 @@
+
+
+.review{
+    background-color: lightgray;
+    padding: 20px;
+    min-width: 270px;
+    max-width: 300px;
+    
+
+}
+
+#deep-learning{
+    color: black;
+    font-size: 12px;
+    
+
+}
+
+input{
+    min-width: 270px;
+    margin: 0 auto;
+    display: block;
+
+}
+
+#detect{
+     text-align: center;
+     padding: 5px 10px;
+     margin: 0 auto;
+     display: block;
+}
+
+#head{
+    text-align: center
+
+}
+
+textarea {
+    resize: vertical;
+    margin: 0 auto;
+    display: block; 
+    min-height: 100px; 
+    max-height: 100px;
+    resize: none;
+}
