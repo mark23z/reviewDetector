@@ -97,3 +97,25 @@ textarea {
         transform: rotate(1turn);
     }
   }
+
+
+.good::before{
+  color: green;
+  visibility: visible;
+  content: "Real";
+  position: absolute;
+  font-weight: bold;
+
+}
+
+.bad::before {
+  color: red;
+  content: "Fake";
+  font-weight: bold;
+
+}
+
+.start{
+  visibility: hidden;
+  position: relative;
+}
