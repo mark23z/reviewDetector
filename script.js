@@ -13,3 +13,11 @@ function buttonLoader(){
 
 btn.addEventListener("click", buttonLoader);
 
+const busted = document.getElementById("busted");
+
+function changeStatus(){
+    busted.classList.add("good")
+
+}
+
+btn.addEventListener("click", changeStatus);
