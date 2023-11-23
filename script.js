@@ -1,4 +1,5 @@
 const btn = document.getElementById("detect");
+const stars = document.getElementById("stars");
 
 function buttonLoader(){
     if(btn.classList.contains("button--loading")){
@@ -21,3 +22,14 @@ function changeStatus(){
 }
 
 btn.addEventListener("click", changeStatus);
+
+function changeNumber(){
+    if(stars.value > 5){
+        stars.value = null;
+    }else if(stars.value < 1){
+        stars.value = null;
+    }
+    console.log("hallo");
+}
+
+stars.addEventListener("keyup", changeNumber);
