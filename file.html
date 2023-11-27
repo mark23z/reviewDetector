@@ -14,12 +14,12 @@
     <div class="review">
         <h1 id="head"><span style="color:green">REVIEW</span> <span style="color:red">DETECTOR</span></h1>
 
-        <textarea placeholder="Paste one or multiple Amazon reviews here." name="text1" cols="35" rows="4"></textarea>
+        <textarea placeholder="Paste one or multiple Amazon reviews here." id="reviewText" name="text1" cols="35" rows="4"></textarea>
         <br>
         <label for="stars"><img src="\icons\stars.png" width="60" height="15">Number of stars:</label>
-        <input type="number" value="1" placeholder="Between 1 and 5" id="stars" min="1" max="5">
+        <input type="number" value="" placeholder="Between 1 and 5" id="stars" min="1" max="5">
         <br>
-        <button id="detect" type="button" class="button">
+        <button disabled="disabled" id="detect" type="button" class="button">
             <span class="button__text">Detect</span>
         </button>
 
@@ -32,9 +32,9 @@
     </div>
 
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script> 
     <script src="background.js"></script>
-
+    
 
 </body>
 
