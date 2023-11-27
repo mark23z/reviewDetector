@@ -1,0 +1,155 @@
+import matplotlib.pyplot as plt
+import os
+import re
+import shutil
+import string
+import tensorflow as tf
+import pandas as pd
+import numpy
+from sklearn.model_selection import train_test_split
+from tensorflow import keras
+from keras import layers
+from keras import losses
+import numpy as np
+import torch
+import pydot
+import sys
+
+df = pd.read_csv(
+    r"r'C:\Users\Mark\Desktop\reviewDetector-main\python\amazon_zwei_inputs.keras'",
+    names=["text_"])
+
+train_text = np.asarray(df.pop('text_'))
+
+max_features = 10000
+sequence_length = 250
+embedding_dim = 16
+
+def custom_standardization(input_data):
+  lowercase = tf.strings.lower(input_data)
+  stripped_html = tf.strings.regex_replace(lowercase, '<br />', ' ')
+  return tf.strings.regex_replace(stripped_html,
+                                  '[%s]' % re.escape(string.punctuation),
+                                  '')
+
+vectorize_layer = layers.TextVectorization(
+    standardize=custom_standardization,
+    max_tokens=max_features,
+    output_mode='int',
+    output_sequence_length=sequence_length)
+
+vectorization_layer = vectorize_layer.adapt(train_text)
+
+##model_one_input= tf.keras.saving.load_model(r"C:\Users\ju58387\Downloads\saved_model\amazon_ein_input.keras")
+
+model_two_inputs = tf.keras.saving.load_model(r"C:\Users\ju58387\Downloads\saved_model\amazon_zwei_inputs.keras")
+
+##model_three_inputs = tf.keras.saving.load_model(r"C:\Users\ju58387\Downloads\saved_model\amazon_drei_inputs.keras")
+
+
+def predict_review_three_inputs(text,category,rating):
+
+    array = [text]
+
+    text_array = np.array(array)
+    text_array[0] = text
+    print(text_array[0])
+    text_array = tf.convert_to_tensor(text_array)
+    text_array = np.array(vectorize_layer(text_array))
+    text_array = tf.cast(text_array, tf.int64)
+    text_array = np.asarray(text_array).astype(np.int64)
+
+
+
+    category_array = numpy.empty([1], dtype=int)
+    category_array[0] = category
+    category_array = tf.convert_to_tensor(category_array)
+    category_array = tf.cast(category_array, tf.int64)
+    category_array = np.expand_dims(category_array, axis=1)
+    category_array = np.pad(category_array, ((0,0),(0,249)), mode='edge')
+    print(category_array)
+
+    rating_array = numpy.empty([1], dtype=int)
+    rating_array[0] = rating
+    rating_array = tf.convert_to_tensor(rating_array)
+    rating_array = tf.cast(rating_array, tf.int64)
+    rating_array = np.expand_dims(rating_array, axis=1)
+    rating_array = np.pad(rating_array, ((0,0),(0,249)), mode='edge')
+    print(rating_array)
+
+
+    prediction = model_three_inputs.predict(
+    x={"text": text_array, "category": category_array, "rating": rating_array})
+
+    print("Hallo bewerten mit drei inputs")
+    print(prediction)
+
+    "Werte größer als 0 sind Fake Reviews"
+    return prediction[0] < 0
+
+
+
+
+textReview = sys.argv[1]
+starReview = sys.argv[2]
+
+
+def predict_review_two_inputs(text,rating):
+
+    array = [text]
+
+    text_array = np.array(array)
+    text_array2 = numpy.empty([1], dtype="S5")
+    text_array[0] = text
+    print(text_array.dtype)
+    print(text_array2.dtype)
+    print(text_array[0])
+    text_array = tf.convert_to_tensor(text_array)
+    text_array = np.array(vectorize_layer(text_array))
+    text_array = tf.cast(text_array, tf.int64)
+    text_array = np.asarray(text_array).astype(np.int64)
+
+    rating_array = numpy.empty([1], dtype=int)
+    rating_array[0] = rating
+    rating_array = tf.convert_to_tensor(rating_array)
+    rating_array = tf.cast(rating_array, tf.int64)
+    rating_array = np.expand_dims(rating_array, axis=1)
+    rating_array = np.pad(rating_array, ((0,0),(0,249)), mode='edge')
+    print(rating_array)
+
+
+    prediction = model_two_inputs.predict(
+    x={"text": text_array, "rating": rating_array})
+
+    print("Hallo bewerten mit zwei inputs")
+    print(prediction)
+
+    "Werte größer als 0 sind Fake Reviews"
+    return prediction[0] < 0
+##true = real und false = fake
+
+def predict_review_one_input(text):
+
+    array = [text]
+
+    array = vectorize_layer(array)
+
+    prediction = model_one_input.predict(array)
+
+    print("Hallo bewerten mit einem input")
+    print(prediction)
+
+    "Werte größer als 0 sind Fake Reviews"
+    return prediction[0] < 0
+
+
+"""" Text,Kategorie,Bewertung"""
+#print(predict_review_three_inputs("Hallo",7,4))
+"""" Text,Bewertung"""
+print(predict_review_two_inputs(textReview,starReview))
+"""" Text"""
+#print(predict_review_one_input("Hallo"))
+data_to_pass_back = predict_review_two_inputs(textReview,starReview)
+output = data_to_pass_back
+sys.stdout.flush()
+
