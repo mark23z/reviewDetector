@@ -1,4 +1,3 @@
-import { hello } from './helper.js'
 
 const btn = document.getElementById("detect");
 const stars = document.getElementById("stars");
