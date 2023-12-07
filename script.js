@@ -59,42 +59,89 @@ function enableField(){
 }
 reviewText.addEventListener("change", enableField);               
 
+
+
 var text = document.getElementById("reviewText").value;
 
 function gibInfo(){
     console.log(reviewText.value)
 }
 btn.addEventListener("click", gibInfo);
+//ab hier Kommunikation mit Python ermöglichen
+var newish
+var xxhttp = new XMLHttpRequest();
 
-btn.addEventListener("click", function(e) {
-    fetch('http://127.0.0.1/predict?text='+reviewText.value+'&b='+stars.value)
+function sendToPyhton(){
+    console.log("Text Value is:" + reviewText.value);
+    console.log("Star Value is:" + stars.value);
+
+    //var textSend = JSON.stringify(reviewText.value);
+    //var textFinally = JSON.parse(textSend);
+    textSend = reviewText.value;
+    ratingSend = stars.value;
+
+    textAndRatingSend = "text=" + textSend + "&rating=" + ratingSend;
+
+    var xxhttp = new XMLHttpRequest();
+    xxhttp.open("POST", "http://127.0.0.1:8000/predict", true);
+    xxhttp.setRequestHeader("Content-type", "application/x-www-from-urlencoded")
+    
+    xxhttp.send(textSend);
+    //xxhttp.send("text=" + textSend + "&rating=" + ratingSend);
+    
+    xxhttp.onload = function(){
+        try{
+        var dataReply = JSON.parse(this.responseText);
+        console.log(dataReply)
+        }
+        catch (error){
+            console.log('Error parsing JSON:', error, this.responseText)
+        }
+    }
+    /* xxhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            console.log("w");
+        }
+    }; */
+    };
+btn.addEventListener("click", sendToPyhton);
+
+//1 Ansatz: Flask Server
+/* btn.addEventListener("click", function(e) {
+    fetch('http://localhost:8000/predict?text='+reviewText.value+'&rating='+stars.value, {
+        mode: 'no-cors'
+    })
     .then((response) => {
         return response.json();
     })
     .then((myJson) => {
         console.log("Ergebnis:"+myJson.result);
     });
-})
+}) */
 
-//const { PythonShell } = require("python-shell");
 
-/* let options = {
-    scriptPath: "C:\Users\Mark\Desktop\reviewDetector-main\python",
+//2 Ansatz: PythonShell (import Python shell geht nicht in JS, nur in Node, Chrome unterstützt kein Node)
+/* const {PythonShell} = require('python-shell');
+
+let options = {
+    scriptPath: "C:\Users\Mark\Desktop\reviewDetector-main\python\Kommentarprufung.py",
     args:["I broke my old Radioshack and bought the new one. I did not need a Radioshack. I am very happy with the product and the quality of the product. I would definitely recommend this product to anyone.", 5.0]
 };
 
 var result;
 
-PythonShell.run("Modelle_laden_1.ipynb", options, (err,res) => {
+PythonShell.run("Kommentarprufung.py", options, (err,res) => {
     if (err) console.log(err);
     if (res) {
-        result = res;
+        console.log(res);
+        //result = res;
     }
 }); */
 
 
 
-//ab hier Kommunikation mit Python ermöglichen
+
+//3 Ansatz: Ähnliche wie Python shell, auch hier funktioniert require nicht
 //const spawn = require('child_process');
 //für string:
 //const text_to_pass_in = reviewText.value;
