@@ -24,10 +24,17 @@ def predict():
 def predict():
     text = request.get_data()
     text2 = text.decode()
+      
+    result = text2.split("^°")
+    textInput = str(result[0])
+    ratingInput = int(result[-1])
+
+    #text = request.args.get('text')
+    #rating = request.args.get('rating')
 
     #result = request.args.to_dcit()
-    #text = result[text]
-    #rating = result[rating]
+    #text = result[0]
+    #rating = result[1]
     #text1 = request.args.get('text')
     #rating1 = request.args.get('rating')
 
@@ -36,14 +43,14 @@ def predict():
 
     #rating = request.args.get('rating')
     #rating = rating.decode()
-    #result = str(Kommentarprufung.predict_review_two_inputs(text2,5.0)[0])
+    rating = str(Kommentarprufung.predict_review_two_inputs(textInput, ratingInput))
     
     #return jsonify(result), 200
 
     #print(taken2)
     #strength = int(taken2)   
     #my_variable = taken2                   
-    return jsonify(text2 + "das"), 200
+    return jsonify(rating), 200
 
 if __name__ == '__main__':
      """ Timer(1, open_browser).start() """
