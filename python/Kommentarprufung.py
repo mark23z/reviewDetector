@@ -13,6 +13,8 @@ from keras import losses
 import numpy as np
 import torch
 import pydot
+import sys
+from flask import jsonify
 
 from numpy.random import seed
 seed(42)
@@ -42,15 +44,15 @@ vectorize_layer = layers.TextVectorization(
 
 
 
-model_one_input= tf.keras.saving.load_model(r"C:\Users\julia\Downloads\saved_model\amazon_ein_input.keras")
 
-model_two_inputs = tf.keras.saving.load_model(r"C:\Users\julia\Downloads\saved_model\amazon_zwei_inputs.keras")
 
-model_three_inputs = tf.keras.saving.load_model(r"C:\Users\julia\Downloads\saved_model\amazon_drei_inputs.keras")
+model_two_inputs = tf.keras.saving.load_model(r"C:\Users\Mark\Desktop\reviewDetector-main\python\amazon_zwei_inputs.keras")
+
+
 
 
 dataframe = pd.read_csv(
-    r"C:\Users\julia\Desktop\fakereviews.csv",
+    r"C:\Users\Mark\Desktop\reviewDetector-main\python\fakereviews.csv",
     names=["category","rating","label","text_"])
 
 one_input_df = dataframe.copy()[["label","text_"]]
@@ -104,7 +106,7 @@ val_text = np.array(vectorize_layer(val_text))
 test_text = np.array(vectorize_layer(test_text))
 
 
-def predict_review_three_inputs(text,rating,category,):
+""" def predict_review_three_inputs(text,rating,category,):
 
     array = [text]
 
@@ -134,7 +136,7 @@ def predict_review_three_inputs(text,rating,category,):
     x={"text": text_array, "category": category_array, "rating": rating_array})
 
     "Werte größer als 0 sind Fake Reviews"
-    return prediction[0] < 0
+    return prediction[0] < 0 """
 
 def predict_review_two_inputs(text,rating):
 
@@ -156,9 +158,21 @@ def predict_review_two_inputs(text,rating):
     prediction = model_two_inputs.predict(
     x={"text": text_array, "rating": rating_array})
 
-    return prediction[0] < 0
+    if prediction[0] <= -2:
+        return "real1"
+    if -1 >= prediction[0] < -2:
+        return "real2"
+    if 0 > prediction[0] < -1:
+        return "real3"
+    if 0 <= prediction[0] < 1:
+        return "fake3"
+    if 1 <= prediction[0] < 2:
+        return "fake2"
+    if prediction[0] >= 2:
+        return "fake1"
 
-def predict_review_one_input(text):
+
+""" def predict_review_one_input(text):
 
     array = [text]
 
@@ -169,7 +183,7 @@ def predict_review_one_input(text):
     prediction = model_one_input.predict(array)
 
     "Werte größer als 0 sind Fake Reviews"
-    return prediction[0] < 0
+    return prediction[0] < 0 """
 
 
 
