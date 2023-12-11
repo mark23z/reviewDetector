@@ -11,20 +11,13 @@ function buttonLoader(){
         btn.classList.remove("button--loading");
     }else{
         btn.classList.add("button--loading");
-    
-
 }
+    /* if(busted.classList.contains("good")) (busted.classList.remove("good"));
+    if(busted.classList.contains("bad")) (busted.classList.remove("bad")); */
+
 }
 btn.addEventListener("click", buttonLoader);
 
-
-//Dem Status Label das "Real" oder "Fake" anhängen
-function changeStatus(){
-    /* if(result > 0) */ busted.classList.add("fake")
-    /* if(result < 0) busted.classList.add("good") */
-
-}
-btn.addEventListener("click", changeStatus);
 
 //Nur Zahlen von 1-5 in dem Star-Input erlauben
 function changeNumber(){
@@ -68,10 +61,10 @@ function gibInfo(){
 }
 btn.addEventListener("click", gibInfo);
 //ab hier Kommunikation mit Python ermöglichen
-var newish
-var xxhttp = new XMLHttpRequest();
+//var xxhttp = new XMLHttpRequest();
 
 function sendToPyhton(){
+    const url = "http://127.0.0.1:8000/predict";
     console.log("Text Value is:" + reviewText.value);
     console.log("Star Value is:" + stars.value);
 
@@ -80,24 +73,50 @@ function sendToPyhton(){
     textSend = reviewText.value;
     ratingSend = stars.value;
 
-    textAndRatingSend = "text=" + textSend + "&rating=" + ratingSend;
-
+    textAndRatingSend = textSend + "^°" + ratingSend;
+    console.log("Together:" + textAndRatingSend);
     var xxhttp = new XMLHttpRequest();
+    //varList = new Array(textSend, ratingSend);
+    /* for(var x = 0; x < 2; x++){
+        xxhttp.open("POST", url, true);
+        xxhttp.setRequestHeader("Content-type", "application/x-www-from-urlencoded");
+        xxhttp.send(varList[x]);
+    }  */
     xxhttp.open("POST", "http://127.0.0.1:8000/predict", true);
     xxhttp.setRequestHeader("Content-type", "application/x-www-from-urlencoded")
     
-    xxhttp.send(textSend);
+    xxhttp.send(textAndRatingSend);
     //xxhttp.send("text=" + textSend + "&rating=" + ratingSend);
     
     xxhttp.onload = function(){
         try{
         var dataReply = JSON.parse(this.responseText);
         console.log(dataReply)
+        if(btn.classList.contains("button--loading")){
+            btn.classList.remove("button--loading");
+        }
+        busted.classList.remove("real1")
+        busted.classList.remove("real2")
+        busted.classList.remove("real3")
+        busted.classList.remove("fake3")
+        busted.classList.remove("fake2")
+        busted.classList.remove("fake1")
+        if(dataReply == "real1") busted.classList.add("real1"); 
+        if(dataReply == "real2") busted.classList.add("real2");
+        if(dataReply == "real3") busted.classList.add("real3");
+        if(dataReply == "fake3") busted.classList.add("fake3");
+        if(dataReply == "fake2") busted.classList.add("fake2");
+        if(dataReply == "fake1") busted.classList.add("fake1");
+        
+        //True = good
+        //False = bad
         }
         catch (error){
             console.log('Error parsing JSON:', error, this.responseText)
         }
+        
     }
+    
     /* xxhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200){
             console.log("w");
@@ -105,6 +124,14 @@ function sendToPyhton(){
     }; */
     };
 btn.addEventListener("click", sendToPyhton);
+
+//Dem Status Label das "Real" oder "Fake" anhängen
+/* function changeStatus(){
+    if(dataReply === true) busted.classList.add("good")
+    if(dataReply === false) busted.classList.add("fake")
+
+}
+btn.addEventListener("click", changeStatus); */
 
 //1 Ansatz: Flask Server
 /* btn.addEventListener("click", function(e) {
