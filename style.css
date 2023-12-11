@@ -99,18 +99,56 @@ textarea {
   }
 
 
-.good::before{
-  color: green;
+.real1::before{
+  color: darkgreen;
   visibility: visible;
-  content: "Real";
+  content: "Real (Highly confident)";
   position: absolute;
   font-weight: bold;
 
 }
 
-.bad::before {
+.real2::before {
+  color: green;
+  visibility: visible;
+  content: "Real (Confident)";
+  position: absolute;
+  font-weight: bold;
+
+}
+
+.real3::before {
+  color: lightgreen;
+  visibility: visible;
+  content: "Real (Mildly confident)";
+  position: absolute;
+  font-weight: bold;
+
+}
+
+.fake1::before {
+  color: darkred;
+  visibility: visible;
+  content: "Fake (Highly confident)";
+  position: absolute;
+  font-weight: bold;
+
+}
+
+.fake2::before {
   color: red;
-  content: "Fake";
+  visibility: visible;
+  content: "Fake (Confident)";
+  position: absolute;
+  font-weight: bold;
+
+}
+
+.fake3::before {
+  color: rgb(250, 110, 110);
+  visibility: visible;
+  content: "Fake (Mildly confident)";
+  position: absolute;
   font-weight: bold;
 
 }
@@ -118,4 +156,5 @@ textarea {
 .start{
   visibility: hidden;
   position: relative;
+  white-space: nowrap;
 }
