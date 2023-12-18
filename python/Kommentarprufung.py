@@ -23,6 +23,7 @@ vectorisierungs_dataset = pd.read_csv(
     r"C:\Users\Mark\Desktop\reviewDetector-main\python\fakereviews.csv",
     names=["text_"])
 
+print("hallo")
 
 max_features = 10000
 sequence_length = 250
@@ -195,6 +196,6 @@ def predict_review_one_input(text):
         return "fake2"
     if prediction[0] >= 2:
         return "fake1"
-
+    
 
 
