@@ -52,6 +52,16 @@ def predict():
     #my_variable = taken2                   
     return jsonify(rating), 200
 
+@app.route('/predictContext', methods = ['POST'])
+@cross_origin(origin='*')
+def predictContext():
+    text = request.get_data()
+    text2 = text.decode()
+
+    rating = str(Kommentarprufung.predict_review_one_input(text2))
+                  
+    return jsonify(rating), 200
+
 if __name__ == '__main__':
      """ Timer(1, open_browser).start() """
 app.run(host='0.0.0.0', port='8000') 
