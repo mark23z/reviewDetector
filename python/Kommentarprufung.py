@@ -47,6 +47,7 @@ vectorize_layer = layers.TextVectorization(
 
 
 model_two_inputs = tf.keras.saving.load_model(r"C:\Users\Mark\Desktop\reviewDetector-main\python\amazon_zwei_inputs.keras")
+model_one_input = tf.keras.saving.load_model(r"C:\Users\Mark\Desktop\reviewDetector-main\python\amazon_ein_input.keras")
 
 
 
@@ -172,7 +173,7 @@ def predict_review_two_inputs(text,rating):
         return "fake1"
 
 
-""" def predict_review_one_input(text):
+def predict_review_one_input(text):
 
     array = [text]
 
@@ -182,8 +183,18 @@ def predict_review_two_inputs(text,rating):
 
     prediction = model_one_input.predict(array)
 
-    "Werte größer als 0 sind Fake Reviews"
-    return prediction[0] < 0 """
+    if prediction[0] <= -2:
+        return "real1"
+    if -1 >= prediction[0] < -2:
+        return "real2"
+    if 0 > prediction[0] < -1:
+        return "real3"
+    if 0 <= prediction[0] < 1:
+        return "fake3"
+    if 1 <= prediction[0] < 2:
+        return "fake2"
+    if prediction[0] >= 2:
+        return "fake1"
 
 
 
