@@ -123,7 +123,118 @@ function sendToPyhton(){
         }
     }; */
     };
-btn.addEventListener("click", sendToPyhton);
+
+    btn.addEventListener("click", sendToPyhton);
+
+  var backgroundData
+  function updatePopup(){
+    chrome.storage.session.get(["key"]).then((result) => {
+        backgroundData = result.key;
+        console.log(backgroundData);
+        sendOneToPython(backgroundData);
+      });
+  }
+  document.addEventListener('DOMContentLoaded', updatePopup);
+
+
+
+function sendOneToPython(backgroundData){
+
+    console.log("Text Value is:" + backgroundData);
+  
+    textSend = backgroundData;
+  
+    var xxhttp = new XMLHttpRequest();
+    xxhttp.open("POST", "http://127.0.0.1:8000/predictContext", true);
+    xxhttp.setRequestHeader("Content-type", "application/x-www-from-urlencoded")
+    
+    xxhttp.send(textSend);
+  
+    
+    xxhttp.onload = function(){
+        try{
+        var dataReply = JSON.parse(this.responseText);
+        console.log(dataReply)
+  
+      /*  chrome.notifications.getAll((items) => {
+      if ( items ) {
+          for (let key in items) {
+              chrome.notifications.clear(key);
+          }
+      }
+    }); */
+        if(dataReply == "real1") chrome.notifications.create('realNotification', real1NotifyOptions); 
+        if(dataReply == "real2") chrome.notifications.create('realNotification', real2NotifyOptions);
+        if(dataReply == "real3") chrome.notifications.create('realNotification', real3NotifyOptions);
+        if(dataReply == "fake3") chrome.notifications.create('fakeNotification', fake3NotifyOptions);
+        if(dataReply == "fake2") chrome.notifications.create('fakeNotification', fake2NotifyOptions);
+        if(dataReply == "fake1") chrome.notifications.create('fakeNotification', fake1NotifyOptions);
+        
+        //True = good
+        //False = bad
+        }
+        catch (error){
+            console.log('Error parsing JSON:', error, this.responseText)
+        }
+        
+    }
+    
+  };
+
+
+  var real1NotifyOptions = {
+    type: 'basic',
+    iconUrl: 'icons/bild48.png',
+    title: 'Real',
+    message: '(Highly confident)'
+  };
+  
+  var real2NotifyOptions = {
+    type: 'basic',
+    iconUrl: 'icons/bild48.png',
+    title: 'Real',
+    message: '(Confident)'
+  };
+  
+  var real3NotifyOptions = {
+    type: 'basic',
+    iconUrl: 'icons/bild48.png',
+    title: 'Real',
+    message: '(Mildly confident)'
+  };
+  
+  var fake1NotifyOptions = {
+    type: 'basic',
+    iconUrl: 'icons/bild48.png',
+    title: 'Fake',
+    message: '(Highly confident)'
+  };
+  
+  var fake2NotifyOptions = {
+    type: 'basic',
+    iconUrl: 'icons/bild48.png',
+    title: 'Fake',
+    message: '(Confident)'
+  };
+  
+  var fake3NotifyOptions = {
+    type: 'basic',
+    iconUrl: 'icons/bild48.png',
+    title: 'Fake',
+    message: '(Mildly confident)'
+  };
+/* chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+    console.log(message, sender, sendResponse);
+    sendResponse({farewell: "goodbye"});
+    //return true;
+}); */
+/* chrome.storage.local.get("text", function(){
+    console.log(text)
+}) */
+
+/* chrome.runtime.onMessage.addListener( function(request, sender) {
+    console.log("Contentscript has received a message from background script: '" + request.greeting + "'");
+}); */
 
 //Dem Status Label das "Real" oder "Fake" anhängen
 /* function changeStatus(){
