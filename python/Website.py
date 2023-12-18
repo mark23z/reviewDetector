@@ -55,10 +55,10 @@ def predict():
 @app.route('/predictContext', methods = ['POST'])
 @cross_origin(origin='*')
 def predictContext():
-    text = request.get_data()
-    text2 = text.decode()
+    text = str(request.get_data())
+    #text2 = text.decode()
 
-    rating = str(Kommentarprufung.predict_review_one_input(text2))
+    rating = str(Kommentarprufung.predict_review_one_input(text))
                   
     return jsonify(rating), 200
 
