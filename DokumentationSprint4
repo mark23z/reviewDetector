@@ -16,3 +16,6 @@ JavaScript kann nicht ohne eine Request-Veränderungen auf Flask zugreifen.
 Wenn Flask letztendlichd die Datei erhält, stellt sich die nächste Herausforderung: die Flask Datei an die Python KI zu übergeben.
 Letzendlich musste der Return Wert der Python KI auch noch angepasst werden, um nicht nur "true" oder "false" zu bekommen, sondern eine Klassifizierung mit sechs Abstufungen von "Sehr sicher Fake" bis "Sehr sicher Richtig" zu erhalten. Diese erhöhte Anzahl an
 verschiedener Return Types, hat die Kommunikation zusätzlich erschwert.
+
+Windows lässt standardmäßig nicht mehrere Benachrichtigungen einer App zu, daher muss diese Einschränkung ausgetrickst werden.
+Beim Context Menü muss nicht nur JavaScript und Python kommunizieren sondern JavaScript, Python und das Context Menü, dadurch wird der gezielte Datenaustausch erschwert.
