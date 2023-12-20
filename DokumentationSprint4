@@ -1,20 +1,20 @@
 Zusammenfassung:
-Im vierten Sprint musste die Kommunikation zwischen dem Front und Backend realisiert werden. Dafür wurde ein Flask Server mit Python aufgesetzt. Dieser Server läuft dann während der Addon Ausführung im Hintergrund. Wenn der jetzt die Inputs mit validen Werte füllt
-und auf "Detect" drückt, wird der eingegebene Input mit JavaScript an den Flask Server gesendet. Python fängt sich dann die gesendeten Daten ab und analysiert diese mit der KI. Die fertig analysierten Daten werden dann wieder an das JavaScript zurück gesendet,
-beim Erhalt wird anschließend das entsprechende Ergebnis mit CSS im Addon angezeigt.
+Im vierten Sprint musste die Kommunikation zwischen dem Front und Backend realisiert werden. Dafür wurde ein Flask Server mit Python aufgesetzt. Dieser Server läuft dann während der Add-on Ausführung im Hintergrund. Wenn der jetzt die Inputs mit validen Werte füllt
+und auf "Detect" drückt, wird der eingegebene Input mit JavaScript an den Flask Server gesendet. Python fängt sich dann die gesendeten Daten ab und analysiert diese mit der KI. Die fertig analysierten Daten werden dann wieder an das JavaScript zurückgesendet,
+beim Erhalt wird anschließend das entsprechende Ergebnis mit CSS im Add-on angezeigt.
 
-Um das Addon noch weiter zu verfeinern haben wir eine weiter Funktion hinzugefügt, das Context Menü. Context Menüs sind die Fenster, die mit Rechtsklick im Browserfenster neben der Maus angezeigt werden. Dort befindet sich, wenn das Addon installiert ist ein neuer
+Um das Add-on noch weiter zu verfeinern haben wir eine weitere Funktion hinzugefügt, das Context Menü. Context Menüs sind die Fenster, die mit Rechtsklick im Browserfenster neben der Maus angezeigt werden. Dort befindet sich, wenn das Add-on installiert ist ein neuer
 Eintrag "getReview". Um diesen zu benutzen, muss der Nutzer den Rezensionstext markieren und anschließend den Menüpunkt anklicken. Der ausgewählte Text wird dann ähnlich wie beim Userinput zur Python KI gesendet. Das ausgewertete Ergebnis wird dann, anders als beim 
 Userinput, direkt unten Rechts als Windows Notification angezeigt. Dadurch kann der Nutzer einige Schritte sparen, jedoch wird dabei dann nur der Text ausgewertet und nicht noch die Anzahl dazugehöriger Sterne.
 
 Probleme:
 Die Kommunikation zwischen JavaScript und Python war sehr schwer zu realisieren, da man parallel dazu noch beachten muss, dass die Rahmenbedingungen, die Google Chrome einem vorgibt, beachtet werden.
-Chrome lässt im Code keine Imports zu und viele Eigenschaften eines Addons in den permissions oder Types sorgen für zusätzliche Einschränkungen.
+Chrome lässt im Code keine Imports zu und viele Eigenschaften eines Add-ons in den permissions oder Types sorgen für zusätzliche Einschränkungen.
 
 Wenn man von JavaScript an Python eine Datei sendet, kommt diese dort auch nicht wie gesendet, sondern verchlüsselt an.
-JavaScript kann nicht ohne eine Request-Veränderungen auf Flask zugreifen.
-Wenn Flask letztendlichd die Datei erhält, stellt sich die nächste Herausforderung: die Flask Datei an die Python KI zu übergeben.
-Letzendlich musste der Return Wert der Python KI auch noch angepasst werden, um nicht nur "true" oder "false" zu bekommen, sondern eine Klassifizierung mit sechs Abstufungen von "Sehr sicher Fake" bis "Sehr sicher Richtig" zu erhalten. Diese erhöhte Anzahl an
+JavaScript kann nicht ohne eine Request-Veränderung auf Flask zugreifen.
+Wenn Flask die Datei erhält, stellt sich die nächste Herausforderung: die Flask Datei an die Python KI zu übergeben.
+Letztendlich musste der Return Wert der Python KI auch noch angepasst werden, um nicht nur "true" oder "false" zu bekommen, sondern eine Klassifizierung mit sechs Abstufungen von "Sehr sicher Fake" bis "Sehr sicher echt" zu erhalten. Diese erhöhte Anzahl an
 verschiedener Return Types, hat die Kommunikation zusätzlich erschwert.
 
 Windows lässt standardmäßig nicht mehrere Benachrichtigungen einer App zu, daher muss diese Einschränkung ausgetrickst werden.
