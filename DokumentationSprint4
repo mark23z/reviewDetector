@@ -12,3 +12,7 @@ Die Kommunikation zwischen JavaScript und Python war sehr schwer zu realisieren,
 Chrome lässt im Code keine Imports zu und viele Eigenschaften eines Addons in den permissions oder Types sorgen für zusätzliche Einschränkungen.
 
 Wenn man von JavaScript an Python eine Datei sendet, kommt diese dort auch nicht wie gesendet, sondern verchlüsselt an.
+JavaScript kann nicht ohne eine Request-Veränderungen auf Flask zugreifen.
+Wenn Flask letztendlichd die Datei erhält, stellt sich die nächste Herausforderung: die Flask Datei an die Python KI zu übergeben.
+Letzendlich musste der Return Wert der Python KI auch noch angepasst werden, um nicht nur "true" oder "false" zu bekommen, sondern eine Klassifizierung mit sechs Abstufungen von "Sehr sicher Fake" bis "Sehr sicher Richtig" zu erhalten. Diese erhöhte Anzahl an
+verschiedener Return Types, hat die Kommunikation zusätzlich erschwert.
