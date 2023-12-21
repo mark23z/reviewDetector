@@ -162,15 +162,15 @@ def predict_review_two_inputs(text,rating):
 
     if prediction[0] <= -2:
         return "real1"
-    if -1 >= prediction[0] < -2:
+    if prediction[0] > -2 and prediction[0] <= -1:
         return "real2"
-    if 0 > prediction[0] < -1:
+    if prediction[0] > -1 and prediction[0] <= 0:
         return "real3"
-    if 0 <= prediction[0] < 1:
+    if prediction[0] > 0 and prediction[0] <= 1:
         return "fake3"
-    if 1 <= prediction[0] < 2:
+    if prediction[0] > 1 and prediction[0] <= 2:
         return "fake2"
-    if prediction[0] >= 2:
+    if prediction[0] > 2:
         return "fake1"
 
 
