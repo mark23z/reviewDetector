@@ -20,7 +20,7 @@ from numpy.random import seed
 seed(42)
 
 vectorisierungs_dataset = pd.read_csv(
-    r"C:\Users\Mark\Desktop\reviewDetector-main\python\fakereviews.csv",
+    r"C:\Users\ma54276\Desktop\reviewDetector-main\python\fakereviews.csv",
     names=["text_"])
 
 print("hallo")
@@ -47,14 +47,14 @@ vectorize_layer = layers.TextVectorization(
 
 
 
-model_two_inputs = tf.keras.saving.load_model(r"C:\Users\Mark\Desktop\reviewDetector-main\python\amazon_zwei_inputs.keras")
-model_one_input = tf.keras.saving.load_model(r"C:\Users\Mark\Desktop\reviewDetector-main\python\amazon_ein_input.keras")
+model_two_inputs = tf.keras.saving.load_model(r"C:\Users\ma54276\Desktop\reviewDetector-main\python\amazon_zwei_inputs.keras")
+model_one_input = tf.keras.saving.load_model(r"C:\Users\ma54276\Desktop\reviewDetector-main\python\amazon_ein_input.keras")
 
 
 
 
 dataframe = pd.read_csv(
-    r"C:\Users\Mark\Desktop\reviewDetector-main\python\fakereviews.csv",
+    r"C:\Users\ma54276\Desktop\reviewDetector-main\python\fakereviews.csv",
     names=["category","rating","label","text_"])
 
 one_input_df = dataframe.copy()[["label","text_"]]
@@ -198,4 +198,4 @@ def predict_review_one_input(text):
         return "fake1"
     
 
-
+print(predict_review_one_input("Does not do a very good job; difficult to use."))
